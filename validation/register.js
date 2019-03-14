@@ -17,18 +17,20 @@ module.exports = function validateRegisterInput(data) {
     errors.name = 'Name is required';
   }
 
-  if (validator.isEmpty(data.email)) {
-    errors.email = 'Email is required';
-  }
   if (!validator.isEmail(data.email)) {
     errors.email = 'Email is invalid';
   }
 
+  if (validator.isEmpty(data.email)) {
+    errors.email = 'Email is required';
+  }
+
+  if (!validator.isLength(data.password, { min: 8, max: 30 })) {
+    errors.password = 'Password must be between 8 and 30 characters';
+  }
+
   if (validator.isEmpty(data.password)) {
     errors.password = 'Password is required';
-  }
-  if (!validator.isLength(data.password, {min: 8, max:30})) {
-    errors.password = 'Password must be between 8 and 30 characters';
   }
 
   if (validator.isEmpty(data.password2)) {
@@ -41,6 +43,6 @@ module.exports = function validateRegisterInput(data) {
 
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors),
   };
 };
